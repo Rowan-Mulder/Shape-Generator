@@ -3,7 +3,7 @@ let svg = document.getElementById("svg");
 let polygon = document.getElementById("polygon");
 
 let pointAmount = document.getElementById("pointAmount");
-let rotation = document.getElementById("rotation");
+//let rotation = document.getElementById("rotation");// Rotation may be added soon
 let minDistance = document.getElementById("minDistance");
 let maxDistance = document.getElementById("maxDistance");
 let autoGenerate = document.getElementById("autoGenerate");
@@ -16,7 +16,7 @@ let outerRing = document.getElementById("outerRing");
 
 
 let ringClamping = true;
-let generatorInputs = [pointAmount, rotation, minDistance, maxDistance, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
+let generatorInputs = [pointAmount, /*rotation*/, minDistance, maxDistance, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
 
 
 let timer = setInterval(() => {
@@ -36,31 +36,21 @@ pointAmount.oninput = () => {
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
-rotation.oninput = () => {
+/*rotation.oninput = () => {
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
-}
+}*/
 minDistance.oninput = () => {
     innerRing.r.baseVal.value = minDistance.value;
 
-    if (ringClamping) {
-        let clampedRingSize = Math.clamp(maxDistance.value, minDistance.value, maxDistance.max);
-        maxDistance.value = clampedRingSize;
-        outerRing.r.baseVal.value = clampedRingSize;
-    }
-
+    UpdateOuterRing();
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
 maxDistance.oninput = () => {
     outerRing.r.baseVal.value = maxDistance.value;
 
-    if (ringClamping) {
-        let clampedRingSize = Math.clamp(minDistance.value, minDistance.min, maxDistance.value);
-        minDistance.value = clampedRingSize;
-        innerRing.r.baseVal.value = clampedRingSize;
-    }
-
+    UpdateInnerRing();
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
@@ -82,15 +72,31 @@ generateInterval.oninput = () => {
 };
 generateShapeButton.onclick = () => ShapeGenerator();
 randomizeButton.onclick = () => {
+    let rings = [];
+
     for (generatorInput in generatorInputs) {
-        if ([0,2,3,7].includes(Number(generatorInput))) {
-            generatorInputs[generatorInput].value = Math.round((Math.random() * (generatorInputs[generatorInput].max - generatorInputs[generatorInput].min)) + generatorInputs[generatorInput].min);
+        switch (Number(generatorInput)) {
+            case 0:
+                generatorInputs[generatorInput].value = Math.round((Math.random() * (generatorInputs[generatorInput].max - generatorInputs[generatorInput].min)) + generatorInputs[generatorInput].min);
+                break;
+            case 2:
+            case 3:
+                rings.push(Math.round((Math.random() * (generatorInputs[generatorInput].max - generatorInputs[generatorInput].min)) + generatorInputs[generatorInput].min));
+                break;
         }
     }
+
+    generatorInputs[2].value = Math.min(rings[0], rings[1]);
+    generatorInputs[3].value = Math.max(rings[0], rings[1]);
+
     if (autoGenerate.checked && generateOnUpdate.checked) {
         ShapeGenerator();
     }
+
     UpdateGenerationInputsLogic(true);
+    UpdateGenerationInputsDisplay();
+    UpdateInnerRing();
+    UpdateOuterRing();
 };
 resetButton.onclick = () => {
     for (generatorInput in generatorInputs) {
@@ -98,9 +104,9 @@ resetButton.onclick = () => {
             case 0:
                 generatorInputs[generatorInput].value = 10;// Point amount
                 break;
-            case 1:
-                generatorInputs[generatorInput].value = 0;// Rotation
-                break;
+            // case 1:
+            //     generatorInputs[generatorInput].value = 0;// Rotation
+            //     break;
             case 2:
                 generatorInputs[generatorInput].value = 50;// Minimum distance
                 break;
@@ -121,8 +127,11 @@ resetButton.onclick = () => {
                 break;
         }
     }
+
     UpdateGenerationInputsLogic(true);
     UpdateGenerationInputsDisplay();
+    UpdateInnerRing();
+    UpdateOuterRing();
 };
 //*/
 
@@ -148,6 +157,7 @@ function UpdateGenerationInputsLogic(intervalChanged = false) {
     if (intervalChanged) {
         clearInterval(timer);
     }
+
     if (autoGenerate.checked) {
         if (intervalChanged && generateOnInterval.checked) {
             timer = setInterval(() => {
@@ -175,9 +185,29 @@ function UpdateGenerationInputsDisplay() {
     }
 
     pointAmountDisplay.innerHTML = pointAmount.value;
-    rotationDisplay.innerHTML = rotation.value;
+    //rotationDisplay.innerHTML = rotation.value;
     minDistanceDisplay.innerHTML = minDistance.value;
     maxDistanceDisplay.innerHTML = maxDistance.value;
     generateIntervalDisplay.innerHTML = generateInterval.value
+}
+
+function UpdateInnerRing() {
+    if (ringClamping) {
+        let clampedRingSize = Math.clamp(minDistance.value, minDistance.min, maxDistance.value);
+        minDistance.value = clampedRingSize;
+        innerRing.r.baseVal.value = clampedRingSize;
+    } else {
+        innerRing.r.baseVal.value = minDistance.value;
+    }
+}
+
+function UpdateOuterRing() {
+    if (ringClamping) {
+        let clampedRingSize = Math.clamp(maxDistance.value, minDistance.value, maxDistance.max);
+        maxDistance.value = clampedRingSize;
+        outerRing.r.baseVal.value = clampedRingSize;
+    } else {
+        outerRing.r.baseVal.value = maxDistance.value;
+    }
 }
 //*/
