@@ -72,11 +72,23 @@ generateInterval.oninput = () => {
 };
 generateShapeButton.onclick = () => ShapeGenerator();
 randomizeButton.onclick = () => {
+    let rings = [];
+
     for (generatorInput in generatorInputs) {
-        if ([0,2,3,7].includes(Number(generatorInput))) {
-            generatorInputs[generatorInput].value = Math.round((Math.random() * (generatorInputs[generatorInput].max - generatorInputs[generatorInput].min)) + generatorInputs[generatorInput].min);
+        switch (Number(generatorInput)) {
+            case 0:
+                generatorInputs[generatorInput].value = Math.round((Math.random() * (generatorInputs[generatorInput].max - generatorInputs[generatorInput].min)) + generatorInputs[generatorInput].min);
+                break;
+            case 2:
+            case 3:
+                rings.push(Math.round((Math.random() * (generatorInputs[generatorInput].max - generatorInputs[generatorInput].min)) + generatorInputs[generatorInput].min));
+                break;
         }
     }
+
+    generatorInputs[2].value = Math.min(rings[0], rings[1]);
+    generatorInputs[3].value = Math.max(rings[0], rings[1]);
+
     if (autoGenerate.checked && generateOnUpdate.checked) {
         ShapeGenerator();
     }
