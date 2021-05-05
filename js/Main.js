@@ -43,24 +43,14 @@ pointAmount.oninput = () => {
 minDistance.oninput = () => {
     innerRing.r.baseVal.value = minDistance.value;
 
-    if (ringClamping) {
-        let clampedRingSize = Math.clamp(maxDistance.value, minDistance.value, maxDistance.max);
-        maxDistance.value = clampedRingSize;
-        outerRing.r.baseVal.value = clampedRingSize;
-    }
-
+    UpdateOuterRing();
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
 maxDistance.oninput = () => {
     outerRing.r.baseVal.value = maxDistance.value;
 
-    if (ringClamping) {
-        let clampedRingSize = Math.clamp(minDistance.value, minDistance.min, maxDistance.value);
-        minDistance.value = clampedRingSize;
-        innerRing.r.baseVal.value = clampedRingSize;
-    }
-
+    UpdateInnerRing();
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
@@ -91,6 +81,8 @@ randomizeButton.onclick = () => {
         ShapeGenerator();
     }
     UpdateGenerationInputsLogic(true);
+    UpdateInnerRing();
+    UpdateOuterRing();
 };
 resetButton.onclick = () => {
     for (generatorInput in generatorInputs) {
@@ -123,6 +115,8 @@ resetButton.onclick = () => {
     }
     UpdateGenerationInputsLogic(true);
     UpdateGenerationInputsDisplay();
+    UpdateInnerRing();
+    UpdateOuterRing();
 };
 //*/
 
@@ -179,5 +173,25 @@ function UpdateGenerationInputsDisplay() {
     minDistanceDisplay.innerHTML = minDistance.value;
     maxDistanceDisplay.innerHTML = maxDistance.value;
     generateIntervalDisplay.innerHTML = generateInterval.value
+}
+
+function UpdateInnerRing() {
+    if (ringClamping) {
+        let clampedRingSize = Math.clamp(minDistance.value, minDistance.min, maxDistance.value);
+        minDistance.value = clampedRingSize;
+        innerRing.r.baseVal.value = clampedRingSize;
+    } else {
+        innerRing.r.baseVal.value = minDistance.value;
+    }
+}
+
+function UpdateOuterRing() {
+    if (ringClamping) {
+        let clampedRingSize = Math.clamp(maxDistance.value, minDistance.value, maxDistance.max);
+        maxDistance.value = clampedRingSize;
+        outerRing.r.baseVal.value = clampedRingSize;
+    } else {
+        outerRing.r.baseVal.value = maxDistance.value;
+    }
 }
 //*/
