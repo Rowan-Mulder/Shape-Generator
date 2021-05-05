@@ -3,7 +3,7 @@ let svg = document.getElementById("svg");
 let polygon = document.getElementById("polygon");
 
 let pointAmount = document.getElementById("pointAmount");
-let rotation = document.getElementById("rotation");
+//let rotation = document.getElementById("rotation");// Rotation may be added soon
 let minDistance = document.getElementById("minDistance");
 let maxDistance = document.getElementById("maxDistance");
 let autoGenerate = document.getElementById("autoGenerate");
@@ -16,7 +16,7 @@ let outerRing = document.getElementById("outerRing");
 
 
 let ringClamping = true;
-let generatorInputs = [pointAmount, rotation, minDistance, maxDistance, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
+let generatorInputs = [pointAmount, /*rotation*/, minDistance, maxDistance, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
 
 
 let timer = setInterval(() => {
@@ -36,10 +36,10 @@ pointAmount.oninput = () => {
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
-rotation.oninput = () => {
+/*rotation.oninput = () => {
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
-}
+}*/
 minDistance.oninput = () => {
     innerRing.r.baseVal.value = minDistance.value;
 
@@ -98,9 +98,9 @@ resetButton.onclick = () => {
             case 0:
                 generatorInputs[generatorInput].value = 10;// Point amount
                 break;
-            case 1:
-                generatorInputs[generatorInput].value = 0;// Rotation
-                break;
+            // case 1:
+            //     generatorInputs[generatorInput].value = 0;// Rotation
+            //     break;
             case 2:
                 generatorInputs[generatorInput].value = 50;// Minimum distance
                 break;
@@ -175,7 +175,7 @@ function UpdateGenerationInputsDisplay() {
     }
 
     pointAmountDisplay.innerHTML = pointAmount.value;
-    rotationDisplay.innerHTML = rotation.value;
+    //rotationDisplay.innerHTML = rotation.value;
     minDistanceDisplay.innerHTML = minDistance.value;
     maxDistanceDisplay.innerHTML = maxDistance.value;
     generateIntervalDisplay.innerHTML = generateInterval.value
