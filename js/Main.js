@@ -92,6 +92,7 @@ randomizeButton.onclick = () => {
     if (autoGenerate.checked && generateOnUpdate.checked) {
         ShapeGenerator();
     }
+
     UpdateGenerationInputsLogic(true);
     UpdateInnerRing();
     UpdateOuterRing();
@@ -125,6 +126,7 @@ resetButton.onclick = () => {
                 break;
         }
     }
+
     UpdateGenerationInputsLogic(true);
     UpdateGenerationInputsDisplay();
     UpdateInnerRing();
@@ -154,6 +156,7 @@ function UpdateGenerationInputsLogic(intervalChanged = false) {
     if (intervalChanged) {
         clearInterval(timer);
     }
+
     if (autoGenerate.checked) {
         if (intervalChanged && generateOnInterval.checked) {
             timer = setInterval(() => {
