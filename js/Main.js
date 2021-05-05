@@ -94,6 +94,7 @@ randomizeButton.onclick = () => {
     }
 
     UpdateGenerationInputsLogic(true);
+    UpdateGenerationInputsDisplay();
     UpdateInnerRing();
     UpdateOuterRing();
 };
