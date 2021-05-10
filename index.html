@@ -24,14 +24,7 @@
 					<span id="pointAmountDisplay" class="fw-bold">10</span>
 					<input id="pointAmount" type="range" min="3" step="1" max="50" value="10">
 					<br>
-
-					<!-- Rotation may be added soon
-					<label for="rotation">Rotation</label>
-					<span id="rotationDisplay" class="fw-bold">0</span>
-					<input id="rotation" type="range" min="0" step="1" max="360" value="0">
-					<br>
-					-->
-
+					
 					<label for="minDistance">Minimum distance</label>
 					<span id="minDistanceDisplay" class="fw-bold">50</span>
 					<input id="minDistance" type="range" min="0" step="1" max="150" value="50">
@@ -40,6 +33,11 @@
 					<label for="maxDistance">Maximum distance</label>
 					<span id="maxDistanceDisplay" class="fw-bold">150</span>
 					<input id="maxDistance" type="range" min="0" step="1" max="150" value="150">
+					<br>
+
+					<label for="rotation">Rotation</label>
+					<span id="rotationDisplay" class="fw-bold">0</span>
+					<input id="rotation" type="range" min="0" step="1" max="360" value="0">
 					<br>
 				</div>
 
@@ -70,8 +68,8 @@
 				</div>
 			</div>
 
-			<div style="position: relative; height: 400px;">
-				<svg id="svg" style="position: absolute; top: 50px; left: 50%; transform: translateX(-50%);" width="320" height="320">
+			<div style="position: relative; height: 400px; transform: translateX(-150px)">
+				<svg id="svg" style="position: absolute; top: 50px; left: 50%;" width="320" height="320">
 					<polygon id="polygon" points="" fill="#F00" fill-rule="nonzero"/>
 					<circle id="outerRing" cx="160" cy="160" r="150" stroke="#AAA7" stroke-width="2" fill="#0000"/>
 					<circle id="innerRing" cx="160" cy="160" r="50" stroke="#AAA7" stroke-width="2" fill="#0000"/>

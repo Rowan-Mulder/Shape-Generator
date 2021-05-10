@@ -3,7 +3,7 @@ let svg = document.getElementById("svg");
 let polygon = document.getElementById("polygon");
 
 let pointAmount = document.getElementById("pointAmount");
-//let rotation = document.getElementById("rotation");// Rotation may be added soon
+let rotation = document.getElementById("rotation");
 let minDistance = document.getElementById("minDistance");
 let maxDistance = document.getElementById("maxDistance");
 let autoGenerate = document.getElementById("autoGenerate");
@@ -16,7 +16,7 @@ let outerRing = document.getElementById("outerRing");
 
 
 let ringClamping = true;
-let generatorInputs = [pointAmount, /*rotation*/, minDistance, maxDistance, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
+let generatorInputs = [pointAmount, rotation, minDistance, maxDistance, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
 
 
 let timer = setInterval(() => {
@@ -36,10 +36,10 @@ pointAmount.oninput = () => {
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 };
-/*rotation.oninput = () => {
+rotation.oninput = () => {
     UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
-}*/
+}
 minDistance.oninput = () => {
     innerRing.r.baseVal.value = minDistance.value;
 
@@ -141,7 +141,7 @@ function ShapeGenerator() {
     let pointAmountNumber = Number(document.getElementById("pointAmount").value);
     let minDistanceNumber = Number(document.getElementById("minDistance").value);
     let maxDistanceNumber = Number(document.getElementById("maxDistance").value);
-
+    
     for (let i = 0; i < pointAmountNumber; i++) {
         let point = svg.createSVGPoint();
         let degrees = (360 / pointAmountNumber) * (i + 1);
@@ -151,6 +151,8 @@ function ShapeGenerator() {
         point.y = (Math.sin(radians) * distance) + 160;
         polygon.points.appendItem(point);
     }
+
+    svg.style.transform = `rotate(${Number(rotation.value)}deg)`;
 }
 
 function UpdateGenerationInputsLogic(intervalChanged = false) {
@@ -185,7 +187,7 @@ function UpdateGenerationInputsDisplay() {
     }
 
     pointAmountDisplay.innerHTML = pointAmount.value;
-    //rotationDisplay.innerHTML = rotation.value;
+    rotationDisplay.innerHTML = rotation.value;
     minDistanceDisplay.innerHTML = minDistance.value;
     maxDistanceDisplay.innerHTML = maxDistance.value;
     generateIntervalDisplay.innerHTML = generateInterval.value
