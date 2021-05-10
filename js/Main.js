@@ -27,7 +27,7 @@ Math.clamp = function(value, min, max) {
     return Math.max(min, Math.min(max, value));
 }
 
-
+ResetInputs()
 ShapeGenerator();
 //*/
 
@@ -99,39 +99,7 @@ randomizeButton.onclick = () => {
     UpdateOuterRing();
 };
 resetButton.onclick = () => {
-    for (generatorInput in generatorInputs) {
-        switch(Number(generatorInput)) {
-            case 0:
-                generatorInputs[generatorInput].value = 10;// Point amount
-                break;
-            // case 1:
-            //     generatorInputs[generatorInput].value = 0;// Rotation
-            //     break;
-            case 2:
-                generatorInputs[generatorInput].value = 50;// Minimum distance
-                break;
-            case 3:
-                generatorInputs[generatorInput].value = 150;// Maximum distance
-                break;
-            case 4:
-                generatorInputs[generatorInput].checked = true;// Auto generation
-                break;
-            case 5:
-                generatorInputs[generatorInput].checked = false;// Generate on update
-                break;
-            case 6:
-                generatorInputs[generatorInput].checked = true;// Generate on interval
-                break;
-            case 7:
-                generatorInputs[generatorInput].value = 1000;// Generation interval
-                break;
-        }
-    }
-
-    UpdateGenerationInputsLogic(true);
-    UpdateGenerationInputsDisplay();
-    UpdateInnerRing();
-    UpdateOuterRing();
+    ResetInputs();
 };
 //*/
 
@@ -211,5 +179,41 @@ function UpdateOuterRing() {
     } else {
         outerRing.r.baseVal.value = maxDistance.value;
     }
+}
+
+function ResetInputs() {
+    for (generatorInput in generatorInputs) {
+        switch(Number(generatorInput)) {
+            case 0:
+                generatorInputs[generatorInput].value = 10;// Point amount
+                break;
+            case 1:
+                generatorInputs[generatorInput].value = 0;// Rotation
+                break;
+            case 2:
+                generatorInputs[generatorInput].value = 50;// Minimum distance
+                break;
+            case 3:
+                generatorInputs[generatorInput].value = 150;// Maximum distance
+                break;
+            case 4:
+                generatorInputs[generatorInput].checked = true;// Auto generation
+                break;
+            case 5:
+                generatorInputs[generatorInput].checked = false;// Generate on update
+                break;
+            case 6:
+                generatorInputs[generatorInput].checked = true;// Generate on interval
+                break;
+            case 7:
+                generatorInputs[generatorInput].value = 1000;// Generation interval
+                break;
+        }
+    }
+
+    UpdateGenerationInputsLogic(true);
+    UpdateGenerationInputsDisplay();
+    UpdateInnerRing();
+    UpdateOuterRing();
 }
 //*/
