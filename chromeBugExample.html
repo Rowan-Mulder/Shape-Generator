@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example showing a rare bug with SVG's in Chrome</title>
+</head>
+<body>
+    <svg id="svg" width="320" height="320">
+        <polygon id="polygon" points="191.182 163.939 190.461 167.821 268.607 203 260.76 215.393 273.127 242.191 177.992 176.896 181.546 186.045 196.305 217.207 187.79 219.058 160.976 163.005 179.792 263.755 167.31 276.182 150.717 307.554 146.888 228.733 116.197 294.813 99.3381 288.913 139.071 192.979 103.077 228.808 69.4645 245.018 63.536 230.085 45.453 222.973 108.959 180.209 102.822 174.681 140.992 162.401 73.8426 160 30.8863 143.689 97.8985 144.055 31.2724 109.033 123.983 140.2 127.921 136.693 114.885 117.635 159.039 158.838 96.281 59.595 101.694 36.0943 146.029 117.001 144.561 79.0671 159.689 155.056 160.619 150.159 177.073 70.499 189.066 70.5452 213.104 47.1481 178.713 130.514 210.187 99.3339 223.727 100.157 221.119 115.595 257.178 106.576 237.72 129.229 162.475 159.364 203.094 154.556 286.12 160" fill="#F00" fill-rule="nonzero"></polygon>
+        <circle id="outerRing" cx="160" cy="160" r="150" stroke="#AAA7" stroke-width="2" fill="#0000"></circle>
+    </svg>
+
+    <script>
+        let svg = document.getElementById("svg")
+        let rotationDeg = 0
+        let rotationIncreaseDeg = 1
+        let rotationSpeedMs = 40
+        let loop = setInterval(() => {
+            svg.style.transform = `rotate(${rotationDeg += rotationIncreaseDeg}deg)`
+            if (rotationDeg >= 360) {
+                rotationDeg = 0
+            }
+        }, rotationSpeedMs)
+    </script>
+</body>
+</html>
