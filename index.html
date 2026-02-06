@@ -39,6 +39,11 @@
 					<span id="rotationDisplay" class="fw-bold">0</span>
 					<input id="rotation" type="range" min="0" step="1" max="360" value="0">
 					<br>
+
+					<label for="smoothing">Smoothing</label>
+					<span id="smoothingDisplay" class="fw-bold">0</span>
+					<input id="smoothing" type="range" min="0" step="0.01" max="0.2" value="0">
+					<br>
 				</div>
 
 				<fieldset class="m-2" style="width: 400px;">
@@ -71,6 +76,7 @@
 			<div style="position: relative; height: 400px; transform: translateX(-150px)">
 				<svg id="svg" style="position: absolute; top: 50px; left: 50%;" width="320" height="320">
 					<polygon id="polygon" points="" fill="#F00" fill-rule="nonzero"/>
+					<path id="path" d="" fill="#F00" fill-rule="nonzero"/>
 					<circle id="outerRing" cx="160" cy="160" r="150" stroke="#AAA7" stroke-width="2" fill="#0000"/>
 					<circle id="innerRing" cx="160" cy="160" r="50" stroke="#AAA7" stroke-width="2" fill="#0000"/>
 				</svg>
@@ -92,7 +98,8 @@
 								<ul>
 									<li>Create inputs for <strong>pointAmount</strong>, <strong>minDistance</strong> and <strong>maxDistance</strong></li>
 									<li>Center a SVG container and add 2 circles as gridlines/indicators and a polygon for the main drawing area. See project info source <a href="#infoSource1">SVG polygons</a>.</li>
-									<li>Divide 360° into steps using the <strong>pointAmount</strong> and for each step randomize the distance based on the <strong>minDistance</strong> and <strong>maxDistance</strong>. Translate the degrees and distance to the 2D environment of the polygon. See project info source <a href="#infoSource2">2D point from rotation and distance</a>.</li>
+									<li>Divide 36° into steps using the <strong>pointAmount</strong> and for each step randomize the distance based on the <strong>minDistance</strong> and <strong>maxDistance</strong>. Translate the degrees and distance to the 2D environment of the polygon. See project info source <a href="#infoSource2">2D point from rotation and distance</a>.</li>
+									<li>Optionally smooth/subdivide/bevel 2D polygons. See project info source: <a href="#infoSource3">Smooth an SVG path with cubic bezier curves</a>.</li>
 								</ul>
 							</div>
 						</div>
@@ -138,6 +145,7 @@
 			<ul>
 				<li id="infoSource1"><a href="https://www.w3schools.com/graphics/svg_polygon.asp">SVG polygons - w3schools.com</a></li>
 				<li id="infoSource2"><a href="https://answers.unity.com/questions/1599134/math-to-calculate-2d-point-from-rotation-and-dista.html">2D point from rotation and distance - answers.unity.com</a></li>
+				<li id="infoSource3"><a href="https://francoisromain.medium.com/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74">Smooth an SVG path with cubic bezier curves</a></li>
 			</ul>
 
 			<div class="mt-5">
