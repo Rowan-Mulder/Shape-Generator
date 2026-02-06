@@ -19,6 +19,7 @@ let outerRing = document.getElementById("outerRing");
 
 let ringClamping = true;
 let generatorInputs = [pointAmount, rotation, minDistance, maxDistance, smoothing, autoGenerate, generateOnUpdate, generateOnInterval, generateInterval];
+let latestPoints = [];
 
 
 let timer = setInterval(() => {
@@ -39,7 +40,8 @@ pointAmount.oninput = () => {
     UpdateGenerationInputsDisplay();
 };
 rotation.oninput = () => {
-    UpdateGenerationInputsLogic();
+    svg.style.transform = `rotate(${Number(rotation.value)}deg)`;
+    //UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 }
 minDistance.oninput = () => {
@@ -57,7 +59,16 @@ maxDistance.oninput = () => {
     UpdateGenerationInputsDisplay();
 };
 smoothing.oninput = () => {
-    UpdateGenerationInputsLogic();
+    if (smoothing.value > 0) {
+        SmoothSVG(latestPoints);
+        polygon.style.display = "none";
+        path.style.display = "inline";
+    } else {
+        polygon.style.display = "inline";
+        path.style.display = "none";
+    }
+    
+    // UpdateGenerationInputsLogic();
     UpdateGenerationInputsDisplay();
 }
 autoGenerate.oninput = () => {
@@ -112,7 +123,8 @@ resetButton.onclick = () => {
 //*/ Functions
 function ShapeGenerator() {
     polygon.points.clear();
-    let points = [];
+    latestPoints = [];
+    
     let pointAmountNumber = Number(document.getElementById("pointAmount").value);
     let minDistanceNumber = Number(document.getElementById("minDistance").value);
     let maxDistanceNumber = Number(document.getElementById("maxDistance").value);
@@ -124,20 +136,19 @@ function ShapeGenerator() {
         let radians = degrees * 2 * Math.PI / 360;
         point.x = (Math.cos(radians) * distance) + 160;
         point.y = (Math.sin(radians) * distance) + 160;
+
         polygon.points.appendItem(point);
-        points.push([point.x, point.y]);
+        latestPoints.push([point.x, point.y]);
     }
 
     if (smoothing.value > 0) {
-        SmoothSVG(points);
+        SmoothSVG(latestPoints);
         polygon.style.display = "none";
         path.style.display = "inline";
     } else {
         polygon.style.display = "inline";
         path.style.display = "none";
     }
-
-    svg.style.transform = `rotate(${Number(rotation.value)}deg)`;
 }
 
 function UpdateGenerationInputsLogic(intervalChanged = false) {
